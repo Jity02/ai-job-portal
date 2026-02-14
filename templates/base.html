@@ -1,0 +1,248 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Job Portal</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+        body {
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #eef2ff, #f8fafc);
+            min-height: 100vh;
+            padding-top: 60px;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            height: 60px;
+            background: linear-gradient(90deg, #4f46e5, #6366f1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            z-index: 1050;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            height: calc(100vh - 60px);
+            background: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding-top: 30px;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 250px;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.2);
+            transition: 0.3s ease;
+        }
+
+        .sidebar h5 {
+            font-weight: 600;
+            color: #9ca3af;
+            letter-spacing: 1px;
+        }
+
+        .sidebar a {
+            color: #d1d5db;
+            display: block;
+            padding: 12px 25px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            border-radius: 8px;
+            margin: 5px 15px;
+        }
+
+        .sidebar a:hover {
+            background: linear-gradient(90deg, #4f46e5, #6366f1);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        /* ================= CONTENT ================= */
+
+        .content-area {
+            margin-left: 250px;
+            padding: 40px;
+            padding-top: 20px;
+            min-height: calc(100vh - 60px);
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        /* ================= ANIMATION ================= */
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 768px) {
+
+            .sidebar {
+                width: 200px;
+            }
+
+            .content-area {
+                margin-left: 200px;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar navbar-dark fixed-top">
+    <div class="container-fluid">
+
+        <a class="navbar-brand" href="{% url 'home' %}">
+            Job Portal
+        </a>
+
+        <div class="ms-auto">
+
+            {% if user.is_authenticated %}
+
+                <span class="text-white me-3 fw-light">
+                    Welcome, {{ user.username }}
+                </span>
+
+                <form action="{% url 'logout' %}" method="POST" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit"
+                            class="btn btn-danger btn-sm rounded-pill px-3">
+                        Logout
+                    </button>
+                </form>
+
+            {% else %}
+
+                <a href="{% url 'login' %}"
+                   class="btn btn-light btn-sm rounded-pill px-3 me-2">
+                    Login
+                </a>
+
+                <a href="{% url 'register' %}"
+                   class="btn btn-warning btn-sm rounded-pill px-3">
+                    Register
+                </a>
+
+            {% endif %}
+
+        </div>
+    </div>
+</nav>
+
+{% if user.is_authenticated %}
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <div class="sidebar">
+
+        <h5 class="text-center mb-4">DASHBOARD</h5>
+
+        <a href="{% url 'dashboard' %}">🏠 Home</a>
+
+        {% if user.user_type == "STUDENT" %}
+            <a href="{% url 'jobs:job_list' %}">💼 Browse Jobs</a>
+            <a href="{% url 'applications:my_applications' %}">📄 My Applications</a>
+        {% endif %}
+
+        {% if user.user_type == "EMPLOYER" %}
+            <a href="{% url 'jobs:post_job' %}">➕ Post Job</a>
+            <a href="{% url 'applications:employer_applications' %}">👥 Applicants</a>
+        {% endif %}
+
+        {% if user.user_type == "ADMIN" %}
+            <a href="{% url 'jobs:admin_job_approval' %}">✅ Approve Jobs</a>
+            <a href="/admin/">⚙ Django Admin</a>
+        {% endif %}
+
+    </div>
+
+    <div class="content-area">
+
+{% else %}
+
+    <div class="container mt-5">
+
+{% endif %}
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} shadow-sm mt-3">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}{% endblock %}
+
+    </div>
+
+<!-- ================= SCRIPTS ================= -->
+
+<!-- Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Particles -->
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    if (document.getElementById("particles-js")) {
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 80 },
+                size: { value: 3 },
+                color: { value: "#00f2fe" },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: "#4facfe",
+                    opacity: 0.4,
+                    width: 1
+                },
+                move: { speed: 2 }
+            },
+            interactivity: {
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: "repulse"
+                    }
+                }
+            }
+        });
+    }
+});
+</script>
+
+</body>
+</html>

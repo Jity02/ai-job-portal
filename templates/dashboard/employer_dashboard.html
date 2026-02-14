@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container py-4">
+
+    <!-- Header -->
+    <div class="mb-4">
+        <h2 class="fw-bold">🏢 Employer Dashboard</h2>
+        <p class="text-muted">Manage your company profile and job postings</p>
+    </div>
+
+    <!-- Profile Summary -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+
+            <div class="row align-items-center">
+                
+                <div class="col-md-2 text-center">
+                    {% if user.profile.profile_pic %}
+                        <img src="{{ user.profile.profile_pic.url }}"
+                             class="rounded-circle"
+                             width="100" height="100"
+                             style="object-fit: cover;">
+                    {% endif %}
+                </div>
+
+                <div class="col-md-6">
+                    <h5 class="fw-bold">{{ user.username }}</h5>
+                    <p class="mb-1"><strong>Email:</strong> {{ user.email }}</p>
+                    <p class="mb-1"><strong>Company:</strong> {{ user.profile.company_name }}</p>
+                    <p class="text-muted">{{ user.profile.bio }}</p>
+                </div>
+
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                    <a href="{% url 'edit_profile' %}" 
+                       class="btn btn-outline-primary mb-2 w-100">
+                        ✏ Edit Profile
+                    </a>
+
+                    <a href="{% url 'users_list' %}" 
+                       class="btn btn-outline-secondary w-100">
+                        👥 View Users
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Main Action Cards -->
+    <div class="row g-4">
+
+        <!-- Post Job -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body text-center">
+                    <h5 class="fw-bold">📝 Post New Job</h5>
+                    <p class="text-muted">
+                        Create and publish new job openings.
+                    </p>
+                    <a href="/jobs/post/" 
+                       class="btn btn-primary w-100 mt-2">
+                        Post Job
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- View Applicants -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body text-center">
+                    <h5 class="fw-bold">📄 View Applicants</h5>
+                    <p class="text-muted">
+                        Review applications and ATS scores.
+                    </p>
+                    <a href="/applications/employer/" 
+                       class="btn btn-success w-100 mt-2">
+                        View Applications
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Messaging -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body text-center">
+                    <h5 class="fw-bold">💬 Messaging</h5>
+                    <p class="text-muted">
+                        Communicate with students directly.
+                    </p>
+                    <a href="{% url 'users_list' %}" 
+                       class="btn btn-warning w-100 mt-2">
+                        Open Chat
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

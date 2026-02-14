@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row justify-content-center">
+
+    <div class="col-md-8">
+
+        <!-- Job Summary Card -->
+        <div class="card mb-4 p-4 shadow-sm">
+
+            <h3 class="mb-3">{{ job.title }}</h3>
+
+            <p class="text-muted">{{ job.description|truncatewords:40 }}</p>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <strong>Location:</strong> {{ job.location }}
+                </div>
+                <div class="col-md-6">
+                    <strong>Salary:</strong> {{ job.salary }}
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Application Form Card -->
+        <div class="card p-4 shadow-sm">
+
+            <h4 class="mb-3 text-primary">Upload Your Resume</h4>
+
+            <!-- Flash Messages -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="mb-3">
+                    <label class="form-label">Resume (PDF Recommended)</label>
+                    <input type="file"
+                           name="resume"
+                           class="form-control"
+                           accept=".pdf,.doc,.docx"
+                           required>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+
+                    <!-- ✅ FIXED NAMESPACE -->
+                    <a href="{% url 'jobs:job_detail' job.id %}"
+                       class="btn btn-outline-secondary">
+                        Back
+                    </a>
+
+                    <button type="submit"
+                            class="btn btn-success">
+                        Submit Application
+                    </button>
+
+                </div>
+
+            </form>
+
+            <div class="mt-4">
+                <small class="text-muted">
+                    Your resume will be automatically analyzed by our AI ATS system.
+                    Make sure your skills match the job description.
+                </small>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

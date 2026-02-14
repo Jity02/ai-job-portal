@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+
+# Virtual Environment
+venv/
+env/
+
+# Media files
+media/
+
+# Static collected files
+staticfiles/
+
+# OS files
+.DS_Store
+
+# Environment variables
+.env

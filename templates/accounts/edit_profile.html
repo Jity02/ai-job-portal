@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+/* ================= MAIN CONTAINER ================= */
+
+.edit-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+
+/* ================= 3D CARD ================= */
+
+.edit-card {
+    width: 100%;
+    max-width: 750px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.15),
+        0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.edit-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.18),
+        0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* ================= TITLE ================= */
+
+.edit-title {
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+}
+
+/* ================= PROFILE IMAGE ================= */
+
+.profile-preview {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.profile-preview img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid white;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+}
+
+.profile-preview img:hover {
+    transform: scale(1.05);
+}
+
+/* ================= FORM ================= */
+
+form p {
+    margin-bottom: 15px;
+}
+
+form input,
+form textarea,
+form select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    transition: all 0.3s ease;
+}
+
+form input:focus,
+form textarea:focus,
+form select:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.2);
+    outline: none;
+}
+
+/* ================= BUTTON ================= */
+
+.btn-update {
+    display: inline-block;
+    background: linear-gradient(45deg, #4f46e5, #6366f1);
+    color: white;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.btn-update:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(79,70,229,0.4);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+    .edit-card {
+        padding: 25px;
+    }
+}
+</style>
+
+<div class="edit-wrapper">
+
+    <div class="edit-card">
+
+        <h3 class="edit-title">✏ Edit Profile</h3>
+
+        <!-- Profile Image -->
+        {% if user.profile.profile_pic %}
+        <div class="profile-preview">
+            <img src="{{ user.profile.profile_pic.url }}">
+        </div>
+        {% endif %}
+
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div>
+                {{ u_form.as_p }}
+            </div>
+
+            <div>
+                {{ p_form.as_p }}
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn-update">
+                    💾 Update Profile
+                </button>
+            </div>
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

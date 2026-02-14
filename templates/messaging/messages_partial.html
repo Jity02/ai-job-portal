@@ -1,0 +1,17 @@
+{% for msg in messages %}
+    {% if msg.sender == request.user %}
+        <div class="message sent">
+            <div class="bubble">{{ msg.message }}</div>
+            <div class="timestamp">
+                {{ msg.timestamp|date:"M d, H:i" }}
+            </div>
+        </div>
+    {% else %}
+        <div class="message received">
+            <div class="bubble">{{ msg.message }}</div>
+            <div class="timestamp">
+                {{ msg.timestamp|date:"M d, H:i" }}
+            </div>
+        </div>
+    {% endif %}
+{% endfor %}

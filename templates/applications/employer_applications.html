@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h3>Applicants for Your Jobs</h3>
+
+<table class="table table-bordered mt-3">
+    <tr>
+        <th>Job</th>
+        <th>Student</th>
+        <th>Resume</th>
+        <th>Date</th>
+    </tr>
+
+    {% for app in applications %}
+    <tr>
+        <td>{{ app.job.title }}</td>
+        <td>{{ app.student.username }}</td>
+        <td>
+            <a href="{{ app.resume.url }}" target="_blank">View Resume</a>
+        </td>
+        <td>{{ app.applied_at }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="4">No applications yet.</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">My Applications</h2>
+
+    {% if applications %}
+
+        {% for app in applications %}
+
+        <div class="card mb-3 p-4">
+
+            <div class="row align-items-center">
+
+                <!-- Job Info -->
+                <div class="col-md-4">
+                    <h5>{{ app.job.title }}</h5>
+                    <small class="text-muted">
+                        Applied on {{ app.applied_at|date:"M d, Y" }}
+                    </small>
+                </div>
+
+                <!-- ATS Score -->
+                <div class="col-md-3">
+                    <strong>ATS Score:</strong><br>
+
+                    {% if app.ats_score >= 75 %}
+                        <span class="ats-score ats-high">
+                            {{ app.ats_score }}%
+                        </span>
+                    {% elif app.ats_score >= 40 %}
+                        <span class="ats-score ats-medium">
+                            {{ app.ats_score }}%
+                        </span>
+                    {% else %}
+                        <span class="ats-score ats-low">
+                            {{ app.ats_score }}%
+                        </span>
+                    {% endif %}
+                </div>
+
+                <!-- Status -->
+                <div class="col-md-3">
+                    <strong>Status:</strong><br>
+
+                    {% if app.status == "PENDING" %}
+                        <span class="badge bg-warning text-dark">
+                            Pending
+                        </span>
+
+                    {% elif app.status == "SHORTLISTED" %}
+                        <span class="badge bg-success">
+                            Shortlisted
+                        </span>
+
+                    {% elif app.status == "REJECTED" %}
+                        <span class="badge bg-danger">
+                            Rejected
+                        </span>
+                    {% endif %}
+                </div>
+
+                <!-- Resume Download -->
+                <div class="col-md-2 text-end">
+                    <a href="{{ app.resume.url }}"
+                       target="_blank"
+                       class="btn btn-outline-primary btn-sm">
+                        View Resume
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="card p-4 text-center">
+            <h5>You have not applied for any jobs yet.</h5>
+            <a href="{% url 'job_list' %}" class="btn btn-primary mt-3">
+                Browse Jobs
+            </a>
+        </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
