@@ -9,9 +9,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "unsafe-secret-key")
 
-DEBUG = True  # keep True until everything works
+DEBUG = False # keep True until everything works
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    "ai-job-portal-o7m2.onrender.com",
+    "127.0.0.1",
+]
+
 
 
 # ===============================
