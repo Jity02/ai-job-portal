@@ -79,11 +79,23 @@ TEMPLATES = [
 # DATABASE (SQLite Only)
 # ===============================
 
+import os
 import dj_database_url
 
-DATABASES = {
-    'default': dj_database_url.config(default=os.environ.get("DATABASE_URL"))
-}
+if os.environ.get("DATABASE_URL"):
+    # Production (Render PostgreSQL)
+    DATABASES = {
+        'default': dj_database_url.config(conn_max_age=600)
+    }
+else:
+    # Local development (SQLite)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+
 
 # ===============================
 # PASSWORD VALIDATION
@@ -143,3 +155,7 @@ LOGOUT_REDIRECT_URL = 'home'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://ai-job-portal-o7m2.onrender.com",
+]
