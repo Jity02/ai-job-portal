@@ -164,3 +164,21 @@ CSRF_TRUSTED_ORIGINS = [
     "https://ai-job-portal-o7m2.onrender.com",
 ]
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# ===============================
+# PRODUCTION SECURITY (RENDER)
+# ===============================
+
+import os
+
+if os.environ.get("RENDER"):
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    CSRF_TRUSTED_ORIGINS = [
+        "https://ai-job-portal-o7m2.onrender.com",
+    ]
