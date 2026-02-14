@@ -1,11 +1,15 @@
 from pathlib import Path
 import os
-from django.conf import settings
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-qb3agylzqnlhp7l0p26sx!rlozt9n6txz=xf76vsp(h8)9tun5'
+# ===============================
+# SECURITY
+# ===============================
 
-DEBUG = True
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "unsafe-secret-key")
+
+DEBUG = True  # keep True until everything works
 
 ALLOWED_HOSTS = ['*']
 
@@ -47,6 +51,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'jobportal.urls'
 
+WSGI_APPLICATION = 'jobportal.wsgi.application'
+
 
 # ===============================
 # TEMPLATES
@@ -55,7 +61,7 @@ ROOT_URLCONF = 'jobportal.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,17 +74,15 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'jobportal.wsgi.application'
-
 
 # ===============================
-# DATABASE (MySQL)
+# DATABASE (SQLite Only)
 # ===============================
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -88,28 +92,18 @@ DATABASES = {
 # ===============================
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 
 # ===============================
-# CUSTOM USER MODEL
+# CUSTOM USER
 # ===============================
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
-
-
 
 
 # ===============================
@@ -123,17 +117,24 @@ USE_TZ = True
 
 
 # ===============================
-# STATIC & MEDIA FILES
+# STATIC FILES
 # ===============================
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+# ===============================
+# MEDIA FILES
+# ===============================
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+
 # ===============================
 # AUTH REDIRECTS
 # ===============================
@@ -142,9 +143,5 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'home'
 
-
-# ===============================
-# DEFAULT PRIMARY KEY
-# ===============================
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
