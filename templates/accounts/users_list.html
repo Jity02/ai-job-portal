@@ -3,19 +3,37 @@
 {% block content %}
 
 <style>
+.users-wrapper {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
 .user-card {
     background: white;
-    padding: 15px;
+    padding: 20px;
     margin-bottom: 15px;
-    border-radius: 8px;
+    border-radius: 10px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
 
-.btn {
-    padding: 6px 12px;
-    border-radius: 4px;
+.user-info strong {
+    font-size: 18px;
+}
+
+.user-info small {
+    color: #666;
+}
+
+.btn-custom {
+    padding: 8px 14px;
+    border-radius: 6px;
     text-decoration: none;
     margin-right: 8px;
+    font-size: 14px;
+    display: inline-block;
+    margin-top: 8px;
+    transition: 0.3s ease;
 }
 
 .btn-profile {
@@ -32,36 +50,58 @@
     background: #ffc107;
     color: black;
 }
+
+.btn-custom:hover {
+    opacity: 0.9;
+}
+
+/* ===== MOBILE FIX ===== */
+
+@media (max-width: 768px) {
+
+    .users-wrapper {
+        padding: 15px;
+        margin: 20px auto;
+    }
+
+    .btn-custom {
+        display: block;
+        width: 100%;
+        margin: 8px 0;
+        text-align: center;
+    }
+}
 </style>
 
-<div style="max-width:700px; margin:40px auto;">
+<div class="users-wrapper">
 
-    <h2>All Users</h2>
+    <h2 class="mb-4">All Users</h2>
 
     {% for user in users %}
         <div class="user-card">
 
-            <strong>{{ user.username }}</strong>
-            <br>
-            <small>{{ user.email }}</small>
+            <div class="user-info">
+                <strong>{{ user.username }}</strong><br>
+                <small>{{ user.email }}</small>
+            </div>
 
-            <div style="margin-top:10px;">
+            <div class="mt-2">
 
-                <!-- View Profile -->
-                <a href="{% url 'profile' user.id %}" class="btn btn-profile">
+                <a href="{% url 'profile' user.id %}" 
+                   class="btn-custom btn-profile">
                     View Profile
                 </a>
 
-                <!-- Chat Button -->
                 {% if request.user.is_authenticated and request.user.id != user.id %}
-                    <a href="{% url 'chat' user.id %}" class="btn btn-chat">
+                    <a href="{% url 'chat' user.id %}" 
+                       class="btn-custom btn-chat">
                         Chat
                     </a>
                 {% endif %}
 
-                <!-- Edit Button (only for self) -->
                 {% if request.user.id == user.id %}
-                    <a href="{% url 'edit_profile' %}" class="btn btn-edit">
+                    <a href="{% url 'edit_profile' %}" 
+                       class="btn-custom btn-edit">
                         Edit Profile
                     </a>
                 {% endif %}

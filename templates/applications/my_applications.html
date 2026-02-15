@@ -9,39 +9,39 @@
 
         {% for app in applications %}
 
-        <div class="card mb-3 p-4">
+        <div class="card mb-3 p-3 p-md-4">
 
-            <div class="row align-items-center">
+            <div class="row gy-3 align-items-center">
 
                 <!-- Job Info -->
-                <div class="col-md-4">
-                    <h5>{{ app.job.title }}</h5>
+                <div class="col-12 col-md-4">
+                    <h5 class="mb-1">{{ app.job.title }}</h5>
                     <small class="text-muted">
                         Applied on {{ app.applied_at|date:"M d, Y" }}
                     </small>
                 </div>
 
                 <!-- ATS Score -->
-                <div class="col-md-3">
+                <div class="col-12 col-md-3">
                     <strong>ATS Score:</strong><br>
 
                     {% if app.ats_score >= 75 %}
-                        <span class="ats-score ats-high">
+                        <span class="badge bg-success">
                             {{ app.ats_score }}%
                         </span>
                     {% elif app.ats_score >= 40 %}
-                        <span class="ats-score ats-medium">
+                        <span class="badge bg-warning text-dark">
                             {{ app.ats_score }}%
                         </span>
                     {% else %}
-                        <span class="ats-score ats-low">
+                        <span class="badge bg-danger">
                             {{ app.ats_score }}%
                         </span>
                     {% endif %}
                 </div>
 
                 <!-- Status -->
-                <div class="col-md-3">
+                <div class="col-12 col-md-3">
                     <strong>Status:</strong><br>
 
                     {% if app.status == "PENDING" %}
@@ -62,10 +62,10 @@
                 </div>
 
                 <!-- Resume Download -->
-                <div class="col-md-2 text-end">
+                <div class="col-12 col-md-2 text-md-end">
                     <a href="{{ app.resume.url }}"
                        target="_blank"
-                       class="btn btn-outline-primary btn-sm">
+                       class="btn btn-outline-primary btn-sm w-100 w-md-auto">
                         View Resume
                     </a>
                 </div>

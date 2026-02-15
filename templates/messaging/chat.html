@@ -7,17 +7,18 @@
 .chat-wrapper {
     display: flex;
     justify-content: center;
-    align-items: center;
-    min-height: 80vh;
+    align-items: flex-start;
+    min-height: calc(100vh - 90px);
+    padding: 20px;
 }
 
 .chat-container {
     width: 100%;
     max-width: 750px;
-    background: rgba(255,255,255,0.85);
+    background: rgba(255,255,255,0.95);
     backdrop-filter: blur(12px);
     border-radius: 20px;
-    padding: 25px;
+    padding: 20px;
     box-shadow: 
         0 15px 35px rgba(0,0,0,0.15),
         0 5px 15px rgba(0,0,0,0.08);
@@ -31,14 +32,13 @@
     font-weight: 600;
     margin-bottom: 15px;
     text-align: center;
-    letter-spacing: 0.5px;
 }
 
 /* ================= CHAT BOX ================= */
 
 .chat-box {
     flex: 1;
-    height: 420px;
+    max-height: 60vh;
     overflow-y: auto;
     padding: 15px;
     border-radius: 15px;
@@ -47,21 +47,13 @@
     scroll-behavior: smooth;
 }
 
-/* Custom Scrollbar */
-.chat-box::-webkit-scrollbar {
-    width: 6px;
-}
-.chat-box::-webkit-scrollbar-thumb {
-    background: #6366f1;
-    border-radius: 10px;
-}
-
 /* ================= MESSAGE STYLE ================= */
 
 .message {
     margin-bottom: 15px;
-    max-width: 70%;
-    animation: fadeInUp 0.3s ease;
+    max-width: 75%;
+    display: flex;
+    flex-direction: column;
 }
 
 .sent {
@@ -77,28 +69,20 @@
 .bubble {
     padding: 10px 16px;
     border-radius: 18px;
-    display: inline-block;
     font-size: 14px;
-    position: relative;
-    transition: transform 0.2s ease;
+    word-wrap: break-word;
 }
 
 /* Sent Bubble */
 .sent .bubble {
     background: linear-gradient(45deg, #4f46e5, #6366f1);
     color: white;
-    box-shadow: 0 5px 15px rgba(79,70,229,0.4);
 }
 
 /* Received Bubble */
 .received .bubble {
     background: white;
     color: #333;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-}
-
-.bubble:hover {
-    transform: scale(1.03);
 }
 
 .timestamp {
@@ -119,13 +103,6 @@
     padding: 12px 15px;
     border-radius: 25px;
     border: 1px solid #ddd;
-    transition: all 0.3s ease;
-}
-
-.chat-input input:focus {
-    border-color: #6366f1;
-    box-shadow: 0 0 0 3px rgba(99,102,241,0.2);
-    outline: none;
 }
 
 .chat-input button {
@@ -134,30 +111,35 @@
     border: none;
     background: linear-gradient(45deg, #4f46e5, #6366f1);
     color: white;
-    font-weight: 500;
-    transition: all 0.3s ease;
 }
 
-.chat-input button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(79,70,229,0.4);
-}
+/* ================= MOBILE FIX ================= */
 
-/* ================= ANIMATION ================= */
+@media (max-width: 768px) {
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(8px);
+    .chat-wrapper {
+        padding: 10px;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+
+    .chat-container {
+        padding: 15px;
     }
+
+    .chat-box {
+        max-height: 55vh;
+    }
+
+    .chat-input {
+        flex-direction: column;
+    }
+
+    .chat-input button {
+        width: 100%;
+        padding: 10px;
+    }
+
 }
 </style>
-
-
 
 <div class="chat-wrapper">
 
@@ -185,7 +167,9 @@
                     </div>
                 {% endif %}
             {% empty %}
-                <p class="text-center text-muted">No messages yet.</p>
+                <p class="text-center text-muted">
+                    No messages yet.
+                </p>
             {% endfor %}
         </div>
 
@@ -196,9 +180,7 @@
                        name="message"
                        placeholder="Type your message..."
                        required>
-                <button type="submit">
-                    ➤
-                </button>
+                <button type="submit">➤</button>
             </div>
         </form>
 
@@ -207,9 +189,8 @@
 </div>
 
 <script>
-        // Auto scroll to bottom
-        const chatBox = document.getElementById("chatBox");
-        chatBox.scrollTop = chatBox.scrollHeight;
+const chatBox = document.getElementById("chatBox");
+chatBox.scrollTop = chatBox.scrollHeight;
 </script>
 
 {% endblock %}

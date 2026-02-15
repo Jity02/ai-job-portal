@@ -4,34 +4,43 @@
 <div class="container py-4">
 
     <!-- Header -->
-    <div class="mb-4">
+    <div class="mb-4 text-center text-md-start">
         <h2 class="fw-bold">🏢 Employer Dashboard</h2>
-        <p class="text-muted">Manage your company profile and job postings</p>
+        <p class="text-muted">
+            Manage your company profile and job postings
+        </p>
     </div>
 
     <!-- Profile Summary -->
     <div class="card shadow-sm border-0 mb-4">
         <div class="card-body">
 
-            <div class="row align-items-center">
-                
-                <div class="col-md-2 text-center">
+            <div class="row align-items-center gy-3">
+
+                <div class="col-12 col-md-2 text-center">
                     {% if user.profile.profile_pic %}
                         <img src="{{ user.profile.profile_pic.url }}"
-                             class="rounded-circle"
-                             width="100" height="100"
-                             style="object-fit: cover;">
+                             class="rounded-circle img-fluid"
+                             style="width:100px; height:100px; object-fit:cover;">
                     {% endif %}
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-12 col-md-6 text-center text-md-start">
                     <h5 class="fw-bold">{{ user.username }}</h5>
-                    <p class="mb-1"><strong>Email:</strong> {{ user.email }}</p>
-                    <p class="mb-1"><strong>Company:</strong> {{ user.profile.company_name }}</p>
-                    <p class="text-muted">{{ user.profile.bio }}</p>
+                    <p class="mb-1">
+                        <strong>Email:</strong> 
+                        <span class="text-break">{{ user.email }}</span>
+                    </p>
+                    <p class="mb-1">
+                        <strong>Company:</strong> 
+                        {{ user.profile.company_name }}
+                    </p>
+                    <p class="text-muted">
+                        {{ user.profile.bio }}
+                    </p>
                 </div>
 
-                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <div class="col-12 col-md-4 text-md-end">
                     <a href="{% url 'edit_profile' %}" 
                        class="btn btn-outline-primary mb-2 w-100">
                         ✏ Edit Profile
@@ -51,12 +60,11 @@
     <!-- Main Action Cards -->
     <div class="row g-4">
 
-        <!-- Post Job -->
-        <div class="col-md-6 col-lg-4">
+        <div class="col-12 col-md-6 col-lg-4">
             <div class="card shadow-sm border-0 h-100">
-                <div class="card-body text-center">
+                <div class="card-body text-center d-flex flex-column">
                     <h5 class="fw-bold">📝 Post New Job</h5>
-                    <p class="text-muted">
+                    <p class="text-muted flex-grow-1">
                         Create and publish new job openings.
                     </p>
                     <a href="/jobs/post/" 
@@ -67,12 +75,11 @@
             </div>
         </div>
 
-        <!-- View Applicants -->
-        <div class="col-md-6 col-lg-4">
+        <div class="col-12 col-md-6 col-lg-4">
             <div class="card shadow-sm border-0 h-100">
-                <div class="card-body text-center">
+                <div class="card-body text-center d-flex flex-column">
                     <h5 class="fw-bold">📄 View Applicants</h5>
-                    <p class="text-muted">
+                    <p class="text-muted flex-grow-1">
                         Review applications and ATS scores.
                     </p>
                     <a href="/applications/employer/" 
@@ -83,12 +90,11 @@
             </div>
         </div>
 
-        <!-- Messaging -->
-        <div class="col-md-6 col-lg-4">
+        <div class="col-12 col-md-6 col-lg-4">
             <div class="card shadow-sm border-0 h-100">
-                <div class="card-body text-center">
+                <div class="card-body text-center d-flex flex-column">
                     <h5 class="fw-bold">💬 Messaging</h5>
-                    <p class="text-muted">
+                    <p class="text-muted flex-grow-1">
                         Communicate with students directly.
                     </p>
                     <a href="{% url 'users_list' %}" 

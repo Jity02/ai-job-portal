@@ -1,151 +1,210 @@
 {% extends 'base.html' %}
-
 {% block content %}
 
 <style>
-/* ========================================
-   HERO SECTION (Professional AI Version)
-======================================== */
+/* =====================================
+   DYNAMIC HERO - ENHANCED NETWORK
+===================================== */
 
 .hero-section {
     position: relative;
     width: 100%;
-    min-height: 80vh;
+    min-height: calc(100vh - 120px);
     display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center;
     overflow: hidden;
-    border-radius: 20px;
-
-    background: linear-gradient(135deg, #0f172a, #1e293b, #0ea5e9);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-    padding: 40px 20px;
+    background: #0f172a;
 }
 
-/* Particle container */
+/* Particle Background */
 #particles-js {
     position: absolute;
     width: 100%;
     height: 100%;
-    z-index: 1;
-    top: 0;
-    left: 0;
+    z-index: 0;
 }
 
-/* Content card */
+/* Small Dynamic JITY */
+.jity-bg {
+    position: absolute;
+    bottom: 30px;
+    right: 40px;
+
+    font-size: 70px; /* smaller */
+    font-weight: 900;
+    letter-spacing: 10px;
+
+    color: rgba(59,130,246,0.25);
+
+    transform: rotate(-8deg);
+    filter: blur(1px);
+
+    z-index: 0;
+    pointer-events: none;
+    user-select: none;
+
+    animation: pulseGlow 4s ease-in-out infinite,
+               floatJity 6s ease-in-out infinite;
+    transition: transform 0.15s ease-out;
+}
+
+/* Floating Motion */
+@keyframes floatJity {
+    0% { transform: rotate(-8deg) translateY(0px); }
+    50% { transform: rotate(-8deg) translateY(-8px); }
+    100% { transform: rotate(-8deg) translateY(0px); }
+}
+
+/* Glow Pulse */
+@keyframes pulseGlow {
+    0% {
+        text-shadow: 0 0 10px rgba(59,130,246,0.3);
+        opacity: 0.7;
+    }
+    50% {
+        text-shadow: 0 0 25px rgba(59,130,246,0.9);
+        opacity: 1;
+    }
+    100% {
+        text-shadow: 0 0 10px rgba(59,130,246,0.3);
+        opacity: 0.7;
+    }
+}
+
+/* Hero Content */
 .hero-content {
     position: relative;
     z-index: 2;
     max-width: 750px;
-    width: 100%;
     padding: 60px 40px;
-
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(20px);
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(25px);
     border-radius: 20px;
+    box-shadow: 0 0 40px rgba(59,130,246,0.4);
+    transition: transform 0.3s ease;
+}
 
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    animation: fadeInUp 1s ease-in-out;
+.hero-content:hover {
+    transform: perspective(1000px) rotateX(3deg) rotateY(-3deg);
 }
 
 .hero-content h1 {
-    font-size: 2.8rem;
+    font-size: 2.5rem;
     font-weight: 700;
-    margin-bottom: 20px;
-
     background: linear-gradient(to right, #38bdf8, #60a5fa);
-
-    background-clip: text;              /* Standard */
-    -webkit-background-clip: text;      /* Chrome/Safari */
-    color: transparent;                 /* Standard */
-    -webkit-text-fill-color: transparent; /* Safari support */
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
 }
 
-/* Paragraph */
 .hero-content p {
-    font-size: 1.2rem;
-    line-height: 1.7;
-    margin-bottom: 35px;
     color: #e2e8f0;
+    margin: 20px 0;
 }
 
-/* Button */
 .hero-btn {
-    display: inline-block;
-    padding: 14px 35px;
-    font-size: 1.05rem;
-    font-weight: 600;
+    padding: 12px 30px;
     border-radius: 50px;
-
     background: linear-gradient(90deg, #0ea5e9, #3b82f6);
     color: white;
     text-decoration: none;
-
-    transition: all 0.3s ease;
-    box-shadow: 0 8px 20px rgba(14, 165, 233, 0.4);
+    transition: 0.3s ease;
 }
 
 .hero-btn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 25px rgba(59, 130, 246, 0.6);
-}
-
-/* Animation */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    box-shadow: 0 0 20px #3b82f6;
+    transform: scale(1.05);
 }
 
 /* Responsive */
-@media (max-width: 992px) {
-    .hero-content h1 {
-        font-size: 2.2rem;
-    }
-}
-
 @media (max-width: 768px) {
-    .hero-section {
-        min-height: 70vh;
-        padding: 30px 15px;
-    }
-
-    .hero-content {
-        padding: 40px 20px;
-    }
-
-    .hero-content h1 {
-        font-size: 1.8rem;
-    }
-
-    .hero-content p {
-        font-size: 1rem;
+    .jity-bg {
+        font-size: 45px;
+        right: 20px;
+        bottom: 20px;
     }
 }
 </style>
 
+<div class="hero-section" id="hero">
 
-<div class="hero-section">
-    
-    <!-- Particle Background -->
     <div id="particles-js"></div>
+
+    <!-- Dynamic JITY -->
+    <div class="jity-bg" id="jityText">JITY</div>
 
     <div class="hero-content">
         <h1>Smart Careers Start Here 🚀</h1>
         <p>
-            Discover AI-powered job matching and real-time ATS scoring.
-            Let intelligent technology guide your career journey and
-            connect you with opportunities that truly match your skills.
+            AI-powered job matching with real-time ATS scoring
+            and intelligent employer connection.
         </p>
-        <a href="/jobs/" class="hero-btn">Explore Opportunities</a>
+        <a href="{% url 'jobs:job_list' %}" class="hero-btn">
+            Explore Opportunities
+        </a>
     </div>
 
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // ==========================
+    // STRONGER PARTICLE NETWORK
+    // ==========================
+    particlesJS("particles-js", {
+        particles: {
+            number: { value: 130 }, /* more particles */
+            color: { value: "#3b82f6" },
+            shape: { type: "circle" },
+            opacity: { value: 0.8 },
+            size: { value: 3 },
+            line_linked: {
+                enable: true,
+                distance: 180, /* longer connections */
+                color: "#60a5fa",
+                opacity: 0.6,
+                width: 1.2
+            },
+            move: {
+                enable: true,
+                speed: 2.5, /* more dynamic */
+                out_mode: "out"
+            }
+        },
+        interactivity: {
+            events: {
+                onhover: {
+                    enable: true,
+                    mode: "repulse"
+                }
+            },
+            modes: {
+                repulse: {
+                    distance: 180,
+                    duration: 0.4
+                }
+            }
+        },
+        retina_detect: true
+    });
+
+    // ==========================
+    // Parallax JITY Movement
+    // ==========================
+    const hero = document.getElementById("hero");
+    const jity = document.getElementById("jityText");
+
+    hero.addEventListener("mousemove", (e) => {
+        const x = (window.innerWidth - e.clientX) / 120;
+        const y = (window.innerHeight - e.clientY) / 120;
+
+        jity.style.transform =
+            `translate(${x}px, ${y}px) rotate(-8deg)`;
+    });
+
+});
+</script>
 
 {% endblock %}

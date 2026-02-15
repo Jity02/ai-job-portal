@@ -3,12 +3,16 @@
 {% block content %}
 
 <style>
+.profile-wrapper {
+    padding: 20px;
+}
+
 .profile-container {
     max-width: 700px;
     margin: 40px auto;
     background: white;
     padding: 30px;
-    border-radius: 10px;
+    border-radius: 15px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     text-align: center;
 }
@@ -24,14 +28,17 @@
 .profile-info {
     margin-bottom: 20px;
     color: #555;
+    word-wrap: break-word;
 }
 
-.btn {
-    padding: 8px 18px;
-    border-radius: 5px;
+.btn-custom {
+    padding: 10px 20px;
+    border-radius: 8px;
     text-decoration: none;
-    margin: 5px;
+    margin: 8px 5px;
     display: inline-block;
+    font-size: 14px;
+    transition: 0.3s ease;
 }
 
 .btn-chat {
@@ -43,34 +50,61 @@
     background: #198754;
     color: white;
 }
+
+.btn-custom:hover {
+    opacity: 0.9;
+}
+
+/* ===== MOBILE FIX ===== */
+
+@media (max-width: 768px) {
+
+    .profile-container {
+        padding: 20px;
+        margin: 20px auto;
+    }
+
+    .profile-image {
+        width: 100px;
+        height: 100px;
+    }
+
+    .btn-custom {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+    }
+}
 </style>
 
-<div class="profile-container">
+<div class="profile-wrapper">
 
-    {% if profile_user.profile.image %}
-        <img src="{{ profile_user.profile.image.url }}" class="profile-image">
-    {% endif %}
+    <div class="profile-container">
 
-    <h2>{{ profile_user.username }}</h2>
+        {% if profile_user.profile.image %}
+            <img src="{{ profile_user.profile.image.url }}" class="profile-image">
+        {% endif %}
 
-    <div class="profile-info">
-        <p><strong>Email:</strong> {{ profile_user.email }}</p>
-        <p><strong>User Type:</strong> {{ profile_user.user_type }}</p>
+        <h2>{{ profile_user.username }}</h2>
+
+        <div class="profile-info">
+            <p><strong>Email:</strong> {{ profile_user.email }}</p>
+            <p><strong>User Type:</strong> {{ profile_user.user_type }}</p>
+        </div>
+
+        {% if request.user.is_authenticated and request.user.id != profile_user.id %}
+            <a href="{% url 'chat' profile_user.id %}" class="btn-custom btn-chat">
+                💬 Chat with {{ profile_user.username }}
+            </a>
+        {% endif %}
+
+        {% if request.user.id == profile_user.id %}
+            <a href="{% url 'edit_profile' %}" class="btn-custom btn-edit">
+                ✏ Edit Profile
+            </a>
+        {% endif %}
+
     </div>
-
-    <!-- Chat Button -->
-    {% if request.user.is_authenticated and request.user.id != profile_user.id %}
-        <a href="{% url 'chat' profile_user.id %}" class="btn btn-chat">
-            💬 Chat with {{ profile_user.username }}
-        </a>
-    {% endif %}
-
-    <!-- Edit Button (only for own profile) -->
-    {% if request.user.id == profile_user.id %}
-        <a href="{% url 'edit_profile' %}" class="btn btn-edit">
-            ✏ Edit Profile
-        </a>
-    {% endif %}
 
 </div>
 

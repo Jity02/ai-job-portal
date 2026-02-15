@@ -1,14 +1,14 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Job Portal</title>
-
     <meta charset="UTF-8">
+    <title>Jity Job Portal</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
@@ -33,7 +33,6 @@
         .navbar-brand {
             font-weight: 700;
             font-size: 20px;
-            letter-spacing: 0.5px;
         }
 
         /* ================= SIDEBAR ================= */
@@ -49,13 +48,12 @@
             left: 0;
             width: 250px;
             box-shadow: 4px 0 20px rgba(0,0,0,0.2);
-            transition: 0.3s ease;
+            transition: transform 0.3s ease;
         }
 
         .sidebar h5 {
             font-weight: 600;
             color: #9ca3af;
-            letter-spacing: 1px;
         }
 
         .sidebar a {
@@ -80,34 +78,31 @@
         .content-area {
             margin-left: 250px;
             padding: 40px;
-            padding-top: 20px;
             min-height: calc(100vh - 60px);
             animation: fadeIn 0.4s ease-in-out;
         }
 
-        /* ================= ANIMATION ================= */
-
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* ================= RESPONSIVE ================= */
 
-        @media (max-width: 768px) {
+        @media (max-width: 992px) {
 
             .sidebar {
-                width: 200px;
+                transform: translateX(-100%);
+                width: 240px;
+                z-index: 1040;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
             }
 
             .content-area {
-                margin-left: 200px;
+                margin-left: 0;
                 padding: 20px;
             }
         }
@@ -121,28 +116,34 @@
 <nav class="navbar navbar-dark fixed-top">
     <div class="container-fluid">
 
+        {% if user.is_authenticated %}
+        <button class="btn btn-light btn-sm d-lg-none me-2"
+                id="sidebarToggle">
+            ☰
+        </button>
+        {% endif %}
+
         <a class="navbar-brand" href="{% url 'home' %}">
-            Jity Job Portal
+            Job Portal
         </a>
 
         <div class="ms-auto">
 
             {% if user.is_authenticated %}
-
-                <span class="text-white me-3 fw-light">
+                <span class="text-white me-3">
                     Welcome, {{ user.username }}
                 </span>
 
-                <form action="{% url 'logout' %}" method="POST" class="d-inline">
+                <form action="{% url 'logout' %}"
+                      method="POST"
+                      class="d-inline">
                     {% csrf_token %}
                     <button type="submit"
                             class="btn btn-danger btn-sm rounded-pill px-3">
                         Logout
                     </button>
                 </form>
-
             {% else %}
-
                 <a href="{% url 'login' %}"
                    class="btn btn-light btn-sm rounded-pill px-3 me-2">
                     Login
@@ -152,9 +153,7 @@
                    class="btn btn-warning btn-sm rounded-pill px-3">
                     Register
                 </a>
-
             {% endif %}
-
         </div>
     </div>
 </nav>
@@ -164,7 +163,6 @@
     <!-- ================= SIDEBAR ================= -->
 
     <div class="sidebar">
-
         <h5 class="text-center mb-4">DASHBOARD</h5>
 
         <a href="{% url 'dashboard' %}">🏠 Home</a>
@@ -183,14 +181,13 @@
             <a href="{% url 'jobs:admin_job_approval' %}">✅ Approve Jobs</a>
             <a href="/admin/">⚙ Django Admin</a>
         {% endif %}
-
     </div>
 
     <div class="content-area">
 
 {% else %}
 
-    <div class="container mt-5">
+    <div class="container mt-4">
 
 {% endif %}
 
@@ -211,36 +208,22 @@
 <!-- Bootstrap -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Particles -->
+<!-- Particles.js Library -->
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
+<!-- Sidebar Toggle Script -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    if (document.getElementById("particles-js")) {
-        particlesJS("particles-js", {
-            particles: {
-                number: { value: 80 },
-                size: { value: 3 },
-                color: { value: "#00f2fe" },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: "#4facfe",
-                    opacity: 0.4,
-                    width: 1
-                },
-                move: { speed: 2 }
-            },
-            interactivity: {
-                events: {
-                    onhover: {
-                        enable: true,
-                        mode: "repulse"
-                    }
-                }
-            }
+
+    const toggleBtn = document.getElementById("sidebarToggle");
+    const sidebar = document.querySelector(".sidebar");
+
+    if (toggleBtn && sidebar) {
+        toggleBtn.addEventListener("click", function () {
+            sidebar.classList.toggle("active");
         });
     }
+
 });
 </script>
 
